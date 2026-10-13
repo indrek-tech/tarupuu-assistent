@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#2d6548">
-<meta name="tarupuu-version" content="2026-10-13-google-login">
+<meta name="tarupuu-version" content="2026-10-13-google-provider-check">
 <title>Tarupuu tööassistent</title>
 <style>
 
@@ -401,6 +401,16 @@ $('#loginForm').addEventListener('submit',async event => {
   $('#loginSubmit').disabled = true;
   $('#loginSubmit').textContent = 'Avan Google’i…';
   try {
+    const providerResponse = await fetch(SUPABASE_URL + '/auth/v1/settings', {
+      headers:{apikey:SUPABASE_PUBLISHABLE_KEY},cache:'no-store'
+    });
+    if (!providerResponse.ok) throw new Error('Provider check failed');
+    const providerSettings = await providerResponse.json();
+    if (providerSettings.external?.google !== true) {
+      const providerError = new Error('Google provider is not enabled');
+      providerError.code = 'provider_disabled';
+      throw providerError;
+    }
     const {error} = await supabaseClient.auth.signInWithOAuth({
       provider:'google',
       options:{redirectTo:AUTH_REDIRECT_URL,queryParams:{login_hint:ALLOWED_EMAIL,prompt:'select_account',hd:'tarupuu.ee'}}
