@@ -340,6 +340,9 @@ function clearData() {
   tasksLoaded = false; invoicesLoaded = false;
   taskError = ''; invoiceError = ''; lastLoadedAt = null;
   pendingTasks.clear();
+  $('#otherContent').replaceChildren();
+  $('#addTaskForm').reset();
+  $('#addError').textContent = '';
   $('#toast').classList.add('hidden');
   $('#taskDialog').close();
   render();
