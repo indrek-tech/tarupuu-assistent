@@ -3,45 +3,495 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#2d6548">
+<meta name="tarupuu-version" content="2026-10-13-live-tasks">
 <title>Tarupuu tööassistent</title>
 <style>
+
 :root{color-scheme:light dark;--bg:light-dark(#f4f6f2,#121713);--panel:light-dark(#fff,#1b231d);--panel2:light-dark(#edf1eb,#252e27);--text:light-dark(#1b2820,#eaf0e9);--muted:light-dark(#657268,#aab7ad);--line:light-dark(#dce3db,#354238);--green:light-dark(#2d6548,#8dc9a2);--greenbg:light-dark(#e0efe4,#233c2b);--amber:light-dark(#93621d,#edc578);--amberbg:light-dark(#fff0d3,#42341f);--red:light-dark(#a54138,#ffaaa1)}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}#app{min-height:100vh;background:var(--bg)}button,input,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:10px;padding:9px 12px}button:hover{border-color:var(--green)}.layout{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}.side{border-right:1px solid var(--line);padding:24px 16px;background:var(--panel)}.brand{font-weight:800;font-size:20px;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}.bee{width:32px;height:32px;border-radius:10px;background:var(--greenbg);display:grid;place-items:center;color:var(--green);font-size:20px}.subtitle{font-size:12px;color:var(--muted);margin:4px 0 28px 42px}.navlabel{font-size:11px;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin:22px 10px 8px}.nav{display:flex;align-items:center;gap:10px;width:100%;text-align:left;margin:3px 0;border-color:transparent;background:transparent}.nav.active{background:var(--greenbg);color:var(--green);font-weight:650}.nav span:first-child{width:20px;text-align:center}.sidefoot{margin-top:40px;border-top:1px solid var(--line);padding:16px 8px;color:var(--muted);font-size:12px}.main{padding:28px clamp(16px,3vw,42px);max-width:1500px;width:100%;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:28px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}h1{font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-1px;margin:5px 0 7px}.muted{color:var(--muted)}.topright{display:flex;gap:8px;align-items:center}.primary{background:var(--green);color:#102519;border-color:var(--green);font-weight:700}.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}.span12{grid-column:span 12}.span8{grid-column:span 8}.span7{grid-column:span 7}.span6{grid-column:span 6}.span5{grid-column:span 5}.span4{grid-column:span 4}.cardhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.card h2{font-size:16px;margin:0;letter-spacing:-.2px}.tiny{font-size:12px;color:var(--muted)}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}.metric .label{font-size:12px;color:var(--muted)}.metric .value{font-size:27px;font-weight:750;letter-spacing:-.7px;margin:6px 0 2px}.metric .note{font-size:12px;color:var(--muted)}.pill{display:inline-flex;align-items:center;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:700;background:var(--panel2);color:var(--muted);white-space:nowrap}.pill.green{background:var(--greenbg);color:var(--green)}.pill.amber{background:var(--amberbg);color:var(--amber)}.pill.red{color:var(--red)}.task{display:flex;align-items:flex-start;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}.task:last-child{border-bottom:0;padding-bottom:0}.check{appearance:none;flex:0 0 18px;width:18px;height:18px;border:1.5px solid var(--muted);border-radius:5px;margin-top:2px;cursor:pointer}.check:checked{background:var(--green);border-color:var(--green)}.check:checked:after{content:'✓';display:block;color:#102519;text-align:center;font-size:13px;font-weight:800;line-height:16px}.taskbody{flex:1;min-width:0}.tasktitle{font-weight:650}.task.done .tasktitle{text-decoration:line-through;color:var(--muted)}.taskmeta{font-size:12px;color:var(--muted);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap}.date{font-size:12px;white-space:nowrap;color:var(--muted)}.progress{height:8px;border-radius:99px;background:var(--panel2);overflow:hidden}.progress>div{height:100%;background:var(--green);border-radius:99px;transition:width .2s}.seasonrow{display:flex;justify-content:space-between;gap:10px;margin:15px 0 7px;font-size:13px}.agenda{display:grid;grid-template-columns:60px minmax(0,1fr);gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.agenda:last-child{border:0}.time{font-size:12px;color:var(--muted);padding-top:2px}.event{border-left:3px solid var(--green);padding:1px 0 2px 11px}.event.amberline{border-color:var(--amber)}.eventtitle{font-weight:650}.eventmeta{font-size:12px;color:var(--muted);margin-top:3px}.mailrow{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}.mailrow:last-child{border:0}.mailicon{width:34px;height:34px;border-radius:10px;background:var(--amberbg);color:var(--amber);display:grid;place-items:center;flex:0 0 auto}.mailtitle{font-weight:650;font-size:13px}.mailmeta{font-size:12px;color:var(--muted);margin-top:3px}.chart{width:100%;height:180px;display:block}.chartlabels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px}.domains{display:flex;flex-wrap:wrap;gap:7px}.domainbtn{font-size:12px;padding:6px 10px}.domainbtn.active{background:var(--greenbg);border-color:var(--green);color:var(--green)}.notice{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--muted);font-size:12px;margin-top:12px}.addrow{display:flex;gap:8px;margin-top:14px}.addrow input{min-width:0;flex:1;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:9px 11px}.hidden{display:none!important}.mobilehead{display:none}@media(max-width:900px){.layout{grid-template-columns:1fr}.side{display:none}.mobilehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.main{padding:18px 14px 32px}.span8,.span7,.span6,.span5,.span4{grid-column:span 12}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.top{align-items:flex-start}.topright .desktop{display:none}}@media(max-width:430px){.metric{padding:12px}.metric .value{font-size:23px}.card{padding:14px}.topright{flex-wrap:wrap;justify-content:flex-end}.date{display:none}}
+
+button:disabled{opacity:.6;cursor:wait}.primary{color:var(--panel)}input,select{background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px;width:100%;min-width:0;font-size:16px}input[type=checkbox]{width:20px;padding:0}.login{max-width:440px;margin:8vh auto;padding:20px}.login .card{margin-top:24px;padding:24px}.login h1{font-size:27px}.field{display:flex;flex-direction:column;gap:6px;font-size:13px}.stack{display:grid;gap:16px}.login button{width:100%;min-height:44px}.error{color:var(--red);font-size:14px}.error:empty{display:none}.status{color:var(--muted);font-size:12px;margin:12px 0;min-height:18px}.status.error{color:var(--red)}.account{font-size:12px;color:var(--muted);overflow-wrap:anywhere}.signout{margin-top:12px;font-size:12px}.mobileNav{display:none}.metric{text-align:left;color:var(--text);width:100%;cursor:pointer}.metric:hover{border-color:var(--green)}.taskgroup+.taskgroup{margin-top:24px}.grouphead{font-size:13px;color:var(--muted);padding-bottom:7px;border-bottom:1px solid var(--line);margin:0}.empty{color:var(--muted);padding:14px 0;margin:0;font-size:14px}.task-description{margin:5px 0;color:var(--muted);font-size:12px;overflow-wrap:anywhere}.tasktitle{overflow-wrap:anywhere}.check{min-width:20px;min-height:20px;flex-basis:20px}.check:focus-visible,button:focus-visible{outline:2px solid var(--green);outline-offset:3px}.task .pill{flex-shrink:0}.scopes{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 18px}.scope.active{background:var(--greenbg);color:var(--green);border-color:var(--green)}.filters{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}.filters select{width:auto;max-width:100%;font-size:14px}.otherTitle{margin-bottom:16px}.invoice-summary{margin-bottom:14px;font-size:13px;color:var(--muted)}.invoice-list{max-height:520px;overflow-y:auto}.invoice-row{display:flex;gap:12px;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line)}.invoice-title{font-weight:650;font-size:14px;overflow-wrap:anywhere}.invoice-meta{color:var(--muted);font-size:12px;margin-top:4px}.invoice-right{text-align:right;flex-shrink:0}.invoice-amount{font-size:13px;margin-bottom:5px}.subcard{margin-top:16px}.dialog{width:min(94vw,520px);border:1px solid var(--line);border-radius:16px;padding:22px;background:var(--panel);color:var(--text)}.dialog::backdrop{background:#0008}.dialoghead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}.dialoghead h2{margin:0;font-size:21px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.formgrid .full{grid-column:1/-1}.dialog-actions{display:flex;justify-content:flex-end;gap:8px}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--green);border-radius:12px;padding:12px 18px;box-shadow:0 3px 20px #0002;max-width:90vw;font-size:14px;z-index:10}.refreshing{opacity:.75}.sidefoot{margin-top:30px}.sectionlink{font-size:12px}.overview-days{margin-top:12px}
+@media(max-width:900px){.mobileNav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}.mobileNav .nav{width:auto;font-size:13px;padding:8px 10px}.mobilehead{gap:10px}.mobilehead .account{font-size:11px;text-align:right}.topright{flex-wrap:wrap;justify-content:flex-end}.topright button{font-size:13px;padding:8px 10px}.top{margin-bottom:14px}.metric{min-height:112px}.main{margin:0}.desktop-account{display:none}}@media(max-width:430px){.formgrid{grid-template-columns:1fr}.formgrid .full{grid-column:auto}.top{display:block}.topright{justify-content:flex-start;margin-top:14px}.task{gap:9px}.task .pill{font-size:10px;padding:4px 6px}.login{margin:4vh auto}.metrics{gap:8px}}
 </style>
 </head>
-<body><div id="app"><div class="layout"><aside class="side"><div class="brand"><div class="bee">✳</div>Tarupuu</div><div class="subtitle">tööassistent</div><div class="navlabel">Töölaud</div><button class="nav active" data-view="overview"><span>▦</span> Ülevaade</button><button class="nav" data-view="tasks"><span>✓</span> Ülesanded</button><button class="nav" data-view="calendar"><span>▦</span> Kalender</button><div class="navlabel">Valdkonnad</div><button class="nav" data-domain="Mesindus"><span>♧</span> Mesindus</button><button class="nav" data-domain="Tehnika ja arendus"><span>⚙</span> Tehnika ja arendus</button><button class="nav" data-domain="Robotniidukid"><span>⌁</span> Robotniidukite remont</button><button class="nav" data-domain="Müük ja põllumajandus"><span>⌂</span> Müük ja põllumajandus</button><div class="navlabel">Andmed</div><button class="nav" data-view="hives"><span>⌁</span> Tarude kaal</button><button class="nav" data-view="inbox"><span>✉</span> Arved ja kirjad</button><div class="sidefoot">Pilvepõhine töölaud<br>Prototüüp · näidisandmed</div></aside><main class="main"><div class="mobilehead"><div class="brand"><div class="bee">✳</div>Tarupuu</div><button id="mobileMenu">☰ Valdkonnad</button></div><div class="top"><div><div class="eyebrow" id="todayLabel">ESMASPÄEV, 12. OKTOOBER</div><h1 id="pageTitle">Tere. Siin on tänane tööplaan.</h1><div class="muted" id="pageSub">Üks plaan kõigi Tarupuu tööde jaoks.</div></div><div class="topright"><button class="desktop" id="refreshBtn">↻ Uuenda vaadet</button><button class="primary" id="addTaskTop">+ Lisa töö</button></div></div><div id="viewOverview"><div class="metrics"><div class="metric"><div class="label">Tänased tööd</div><div class="value" id="metricTasks">4</div><div class="note">plaanis</div></div><div class="metric"><div class="label">Tähtajad</div><div class="value">2</div><div class="note">vajavad tähelepanu</div></div><div class="metric"><div class="label">Hooajatööde edenemine</div><div class="value" id="metricSeason">62%</div><div class="note">sügise kontrollnimekiri</div></div><div class="metric"><div class="label">Tarud kaalumises</div><div class="value">12</div><div class="note">näidisandmed</div></div></div><div class="grid"><section class="card span7"><div class="cardhead"><h2>Tänane prioriteetide nimekiri</h2><span class="pill green">AI tööplaan</span></div><div class="domains" id="domainFilters"><button class="domainbtn active" data-filter="Kõik">Kõik tööd</button><button class="domainbtn" data-filter="Mesindus">Mesindus</button><button class="domainbtn" data-filter="Tehnika ja arendus">Tehnika</button><button class="domainbtn" data-filter="Robotniidukid">Remont</button><button class="domainbtn" data-filter="Müük ja põllumajandus">Müük</button></div><div id="taskList"></div><form class="addrow" id="addTaskForm"><input id="newTask" placeholder="Lisa ülesanne…" maxlength="120" required><button class="primary" type="submit">Lisa</button></form><div class="notice">Plaan on prototüübis käsitsi muudetav. AI-prioriseerimine ja päris kalendri sünkroonimine lisatakse ühenduste seadistamisel.</div></section><section class="card span5"><div class="cardhead"><h2>Tänane ajakava</h2><span class="tiny">12. okt</span></div><div class="agenda"><div class="time">09:00</div><div class="event"><div class="eventtitle">Arvete ja tähtaegade kontroll</div><div class="eventmeta">Ettevõtte juhtimine · 30 min</div></div></div><div class="agenda"><div class="time">10:00</div><div class="event"><div class="eventtitle">Tarude sügisene ülevaatus</div><div class="eventmeta">Mesindus · 2 h</div></div></div><div class="agenda"><div class="time">13:00</div><div class="event amberline"><div class="eventtitle">Robotniiduki diagnostika</div><div class="eventmeta">Remont · 1,5 h</div></div></div><div class="agenda"><div class="time">15:00</div><div class="event"><div class="eventtitle">Arendustöö ja dokumentatsioon</div><div class="eventmeta">Tehnika · 1 h</div></div></div><div class="notice">Sõiduaegade ja asukohtade optimeerimine: ühendatakse hilisemas etapis.</div></section><section class="card span6"><div class="cardhead"><h2>Mesinduse hooajatööd</h2><span class="pill amber">Sügis</span></div><div class="muted" style="font-size:13px">Hooajaline kontrollnimekiri mõjutab ka päevaplaani.</div><div class="seasonrow"><span>Varroa tõrje kontroll</span><span id="seasonCount">5/8</span></div><div class="progress"><div id="seasonProgress" style="width:62.5%"></div></div><div id="seasonTasks"></div><div class="notice">Hooaja edenemine on näidis. Tegelikud tööd ja tähtajad tuleb enne kasutamist üle kinnitada.</div></section><section class="card span6"><div class="cardhead"><h2>Arved ja kirjad</h2><span class="pill amber">2 tähelepanu</span></div><div class="mailrow"><div class="mailicon">€</div><div><div class="mailtitle">Näidisarve tähtaeg läheneb</div><div class="mailmeta">Näidis · tähtaeg 14. oktoober · kontrolli Gmailist</div></div><span class="pill red">2 p</span></div><div class="mailrow"><div class="mailicon">✉</div><div><div class="mailtitle">Kliendile vastamine</div><div class="mailmeta">Näidis · tehniline päring · vastus ootel</div></div><span class="pill amber">Ootel</span></div><div class="notice">Gmail pole ühendatud. Siin kuvatakse praegu näidisandmed, mitte sinu tegelikud kirjad ega arved.</div></section><section class="card span12"><div class="cardhead"><h2>Tarude kaal</h2><button data-view="hives">Ava kaalude vaade →</button></div><div class="muted" style="font-size:13px;margin-bottom:10px">Näidisgraafik. Hiljem saab importida CSV-faili või Google Sheetsi, et kuvada taru kaupa kaal ja päevane muutus.</div><svg class="chart" viewBox="0 0 720 180" preserveAspectRatio="none" role="img" aria-label="Näidis taru kaalu graafik"><g stroke="var(--line)" stroke-width="1"><line x1="38" y1="20" x2="705" y2="20"/><line x1="38" y1="60" x2="705" y2="60"/><line x1="38" y1="100" x2="705" y2="100"/><line x1="38" y1="140" x2="705" y2="140"/></g><g fill="var(--muted)" font-size="10"><text x="4" y="24">42 kg</text><text x="4" y="64">40 kg</text><text x="4" y="104">38 kg</text><text x="4" y="144">36 kg</text></g><path d="M38 116 L112 102 L186 107 L260 80 L334 88 L408 63 L482 70 L556 51 L630 60 L705 42" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 116 L112 102 L186 107 L260 80 L334 88 L408 63 L482 70 L556 51 L630 60 L705 42 L705 150 L38 150Z" fill="var(--green)" opacity=".10"/></svg><div class="chartlabels"><span>3. okt</span><span>6. okt</span><span>9. okt</span><span>12. okt</span></div><div class="notice">Kaalunäidud on väljamõeldud. Pärisandmete import ja graafikute arvutamine lisatakse CSV/Sheetsi ühendamisel.</div></section></div></div><div id="otherView" class="hidden"><section class="card"><div class="cardhead"><h2 id="otherTitle">Ülesanded</h2><button id="backOverview">← Ülevaade</button></div><div id="otherContent"></div></section></div></main></div></div>
+<body>
+<section id="authView" class="login">
+  <div class="brand"><div class="bee" aria-hidden="true">✳</div>Tarupuu tööassistent</div>
+  <div class="card">
+    <h1>Sinu tööd ja tähtajad</h1>
+    <p class="muted">Logi sisse, et näha oma salvestatud ülesandeid ja arveid.</p>
+    <form id="loginForm" class="stack">
+      <label class="field">E-post<input id="loginEmail" type="email" value="indrek@tarupuu.ee" autocomplete="username" required></label>
+      <label class="field">Assistendi konto parool<input id="loginPassword" type="password" autocomplete="current-password" required></label>
+      <p id="loginError" class="error" role="alert"></p>
+      <button id="loginSubmit" class="primary" type="submit" disabled>Ühendan…</button>
+    </form>
+    <p class="tiny">Sisselogimine jääb selles brauseris meelde.</p>
+    <button id="connectionRetry" type="button" class="hidden">Proovi ühendust uuesti</button>
+  </div>
+</section>
+<div id="app" class="hidden"><div class="layout">
+  <aside class="side">
+    <div class="brand"><div class="bee" aria-hidden="true">✳</div>Tarupuu</div>
+    <div class="subtitle">tööassistent</div>
+    <div class="navlabel">Töölaud</div>
+    <button class="nav active" data-view="overview">▦ Ülevaade</button>
+    <button class="nav" data-view="tasks">✓ Kõik tööd</button>
+    <button class="nav" data-view="calendar">▦ Tähtaegade kalender</button>
+    <div class="navlabel">Valdkonnad</div>
+    <button class="nav" data-domain="Juhtimine">Juhtimine</button>
+    <button class="nav" data-domain="Mesindus">Mesindus</button>
+    <button class="nav" data-domain="Tehnika ja arendus">Tehnika ja arendus</button>
+    <button class="nav" data-domain="Robotniidukid">Robotniidukite remont</button>
+    <button class="nav" data-domain="Müük ja põllumajandus">Müük ja põllumajandus</button>
+    <div class="navlabel">Andmed</div>
+    <button class="nav" data-view="inbox">€ Arved</button>
+    <button class="nav" data-view="hives">Tarude kaal</button>
+    <div class="sidefoot"><div class="account" data-account></div><button class="signout" data-signout>Logi välja</button></div>
+  </aside>
+  <main class="main">
+    <div class="mobilehead"><div class="brand"><div class="bee" aria-hidden="true">✳</div>Tarupuu</div><div><div class="account" data-account></div><button class="signout" data-signout>Logi välja</button></div></div>
+    <nav class="mobileNav" aria-label="Töölaua vaated">
+      <button class="nav active" data-view="overview">Ülevaade</button>
+      <button class="nav" data-view="tasks">Kõik tööd</button>
+      <button class="nav" data-view="calendar">Kalender</button>
+      <button class="nav" data-view="inbox">Arved</button>
+    </nav>
+    <div class="top">
+      <div><div class="eyebrow" id="todayLabel"></div><h1 id="pageTitle">Tänased tööd</h1><div class="muted" id="pageSub">Tarupuu tööplaan</div></div>
+      <div class="topright"><button id="refreshBtn">↻ Uuenda</button><button id="addTaskTop" class="primary">+ Lisa töö</button></div>
+    </div>
+    <p id="dataStatus" class="status" role="status" aria-live="polite"></p>
+    <div id="viewOverview">
+      <div class="metrics">
+        <button class="metric" data-scope-link="today"><div class="label">Tänased tööd</div><div class="value" id="metricTasks">—</div><div class="note">Ava tänane nimekiri →</div></button>
+        <button class="metric" data-scope-link="all"><div class="label">Kõik pooleliolevad</div><div class="value" id="metricAll">—</div><div class="note">Ava kõik tööd →</div></button>
+        <button class="metric" data-scope-link="week"><div class="label">Selle nädala tähtajad</div><div class="value" id="metricWeek">—</div><div class="note">Ava nädala nimekiri →</div></button>
+        <button class="metric" data-view="inbox"><div class="label">Arved tähelepanuks</div><div class="value" id="metricInvoices">—</div><div class="note">Ava arved →</div></button>
+      </div>
+      <div class="grid">
+        <section class="card span7"><div class="cardhead"><h2>Tööplaan</h2><button class="sectionlink" data-view="tasks">Kõik tööd →</button></div><div id="taskList"><p class="empty">Laen töid…</p></div></section>
+        <section class="card span5"><div class="cardhead"><h2>Arved ja tähtajad</h2><button class="sectionlink" data-view="inbox">Ava →</button></div><div id="invoicePreview"><p class="empty">Laen arveid…</p></div></section>
+      </div>
+    </div>
+    <div id="otherView" class="hidden"><section class="card">
+      <div class="cardhead"><h2 id="otherTitle">Ülesanded</h2><button id="backOverview">← Ülevaade</button></div>
+      <div id="taskControls" class="hidden">
+        <div class="scopes" aria-label="Tööde tähtajad">
+          <button class="scope active" data-scope="all">Pooleliolevad</button>
+          <button class="scope" data-scope="today">Täna</button>
+          <button class="scope" data-scope="week">See nädal</button>
+          <button class="scope" data-scope="undated">Tähtajata</button>
+          <button class="scope" data-scope="overdue">Hilinenud</button>
+          <button class="scope" data-scope="done">Tehtud</button>
+        </div>
+        <div class="filters"><label for="domainFilter">Valdkond</label><select id="domainFilter"><option>Kõik</option><option>Juhtimine</option><option>Mesindus</option><option>Tehnika ja arendus</option><option>Robotniidukid</option><option>Müük ja põllumajandus</option></select></div>
+      </div>
+      <div id="otherContent"></div>
+    </section></div>
+  </main>
+</div></div>
+<dialog id="taskDialog" class="dialog" aria-labelledby="dialogTitle">
+  <div class="dialoghead"><h2 id="dialogTitle">Lisa töö</h2><button id="closeDialog" aria-label="Sulge">✕</button></div>
+  <form id="addTaskForm" class="stack">
+    <label class="field">Ülesanne<input id="newTask" maxlength="200" required placeholder="Mida on vaja teha?"></label>
+    <div class="formgrid">
+      <label class="field full">Valdkond<select id="newDomain"><option>Juhtimine</option><option>Mesindus</option><option>Tehnika ja arendus</option><option>Robotniidukid</option><option>Müük ja põllumajandus</option></select></label>
+      <label class="field">Tähtaeg<input id="newDue" type="date"><span class="tiny">Tähtajata töö jaoks jäta tühjaks.</span></label>
+      <label class="field">Prioriteet<select id="newPriority"><option>Keskmine</option><option>Kõrge</option><option>Madal</option></select></label>
+    </div>
+    <p id="addError" class="error" role="alert"></p>
+    <div class="dialog-actions"><button id="cancelAdd" type="button">Tühista</button><button id="saveTask" class="primary" type="submit">Salvesta töö</button></div>
+  </form>
+</dialog>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 <script>
-
+'use strict';
 const SUPABASE_URL = 'https://hordwvkfoqkdaswurvnc.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_m4-lXDBzeWjxpDSO8Oo1cw_D7NxKDRb';
-
+const TIME_ZONE = 'Europe/Tallinn';
+const TASK_FIELDS = 'id,title,description,domain,priority,status,due_at,created_at,updated_at';
+const INVOICE_FIELDS = 'id,supplier,invoice_number,due_date,amount_original,currency,payment_status,direction,document_type,automatic_payment,deadline_status,review_reason';
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
 let supabaseClient = null;
+let currentUser = null;
+let tasks = [];
+let invoices = [];
+let activeView = 'overview';
+let taskScope = 'all';
+let domainFilter = 'Kõik';
+let tasksLoaded = false;
+let invoicesLoaded = false;
+let taskError = '';
+let invoiceError = '';
+let loading = false;
+let loadRevision = 0;
+let mutationRevision = 0;
+let authRevision = 0;
+let lastLoadedAt = null;
+let toastTimer;
+let connectionPromise = null;
+const pendingTasks = new Set();
 
-import('https://esm.sh/@supabase/supabase-js@2')
-  .then(({ createClient }) => {
-    supabaseClient = createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-    console.info('Supabase klient valmis');
-  })
-  .catch(error => {
-    console.error('Supabase ühenduse viga:', error);
+function esc(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function localDay(value = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-GB', {timeZone:TIME_ZONE,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(value));
+  const fields = Object.fromEntries(parts.map(p => [p.type,p.value]));
+  return fields.year + '-' + fields.month + '-' + fields.day;
+}
+function addDays(day, count) {
+  const date = new Date(day + 'T12:00:00Z');
+  date.setUTCDate(date.getUTCDate() + count);
+  return date.toISOString().slice(0,10);
+}
+function weekEnd(day = localDay()) {
+  const weekday = new Date(day + 'T12:00:00Z').getUTCDay();
+  return addDays(day, (7 - weekday) % 7);
+}
+function endOfTallinnDay(day) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error('Kontrolli kuupäeva.');
+  const [year,month,date] = day.split('-').map(Number);
+  const wanted = Date.UTC(year,month-1,date,23,59,59);
+  let instant = wanted;
+  const formatter = new Intl.DateTimeFormat('en-GB',{timeZone:TIME_ZONE,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
+  for (let i=0;i<3;i++) {
+    const p = Object.fromEntries(formatter.formatToParts(new Date(instant)).map(x => [x.type,x.value]));
+    const represented = Date.UTC(+p.year,+p.month-1,+p.day,+p.hour,+p.minute,+p.second);
+    instant += wanted - represented;
+  }
+  if (localDay(instant) !== day) throw new Error('Kontrolli kuupäeva.');
+  return new Date(instant).toISOString();
+}
+function dateText(day) {
+  if (!day) return 'Tähtaeg määramata';
+  return new Intl.DateTimeFormat('et-EE',{timeZone:TIME_ZONE,day:'numeric',month:'numeric',year:'numeric'}).format(new Date(day + 'T12:00:00Z'));
+}
+function dueText(task) {
+  if (!task.due_at) return 'Tähtaeg määramata';
+  const day = localDay(task.due_at);
+  const today = localDay();
+  if (day === today) return 'Täna · ' + dateText(day);
+  if (day === addDays(today,1)) return 'Homme · ' + dateText(day);
+  return (day < today && isOpen(task) ? 'Hilinenud · ' : '') + dateText(day);
+}
+function isOpen(task) { return task.status !== 'Tehtud' && task.status !== 'Tühistatud'; }
+function taskMatches(task, scope = taskScope, domain = domainFilter, today = localDay()) {
+  if (domain !== 'Kõik' && task.domain !== domain) return false;
+  if (scope === 'done') return task.status === 'Tehtud';
+  if (!isOpen(task)) return false;
+  const due = task.due_at ? localDay(task.due_at) : null;
+  if (scope === 'today') return due === today;
+  if (scope === 'week') return due !== null && due >= today && due <= weekEnd(today);
+  if (scope === 'undated') return due === null;
+  if (scope === 'overdue') return due !== null && due < today;
+  return true;
+}
+function sortedTasks(list) {
+  const ranks = {'Kõrge':0,'Keskmine':1,'Madal':2};
+  return list.slice().sort((a,b) => {
+    const ad = a.due_at ? localDay(a.due_at) : '9999-12-31';
+    const bd = b.due_at ? localDay(b.due_at) : '9999-12-31';
+    return ad.localeCompare(bd) || (ranks[a.priority] ?? 1) - (ranks[b.priority] ?? 1) || String(b.created_at).localeCompare(String(a.created_at));
   });
-const tasks=[
-{id:1,title:'Kontrolli tarude sügisese ülevaatuse nimekirja',domain:'Mesindus',due:'Täna',priority:'Kõrge',done:false},
-{id:2,title:'Vaata üle maksmata arved ja tähtajad',domain:'Tehnika ja arendus',due:'Täna',priority:'Kõrge',done:false},
-{id:3,title:'Robotniiduki mootoriahela diagnostika',domain:'Robotniidukid',due:'Täna',priority:'Keskmine',done:false},
-{id:4,title:'Saada kliendile tehnilise töö kokkuvõte',domain:'Tehnika ja arendus',due:'Täna',priority:'Keskmine',done:false},
-{id:5,title:'Valmista ette meekärgede inventuur',domain:'Mesindus',due:'Homme',priority:'Keskmine',done:false},
-{id:6,title:'Kontrolli küttepuude tellimuse kogus',domain:'Müük ja põllumajandus',due:'16. okt',priority:'Madal',done:false}
-];
-const season=[{name:'Mesilasperede tugevuse hindamine',done:true},{name:'Varroa tõrje tulemuse kontroll',done:true},{name:'Söödavaru kontroll',done:true},{name:'Tarude talvekindluse kontroll',done:true},{name:'Lendla vähendamine ja kaitse',done:true},{name:'Kaalude ja märkmete ülevaatus',done:false},{name:'Talvitumise ettevalmistuse lõppkontroll',done:false},{name:'Kevadise inventari nimekiri',done:false}];let filter='Kõik';let nextId=7;
-const $=s=>document.querySelector(s);const $$=s=>[...document.querySelectorAll(s)];
-function renderTasks(){let arr=tasks.filter(t=>filter==='Kõik'||t.domain===filter);$('#taskList').innerHTML=arr.map(t=>`<div class="task ${t.done?'done':''}"><input class="check" type="checkbox" data-check="${t.id}" ${t.done?'checked':''} aria-label="Märgi tehtuks"><div class="taskbody"><div class="tasktitle">${esc(t.title)}</div><div class="taskmeta"><span>${esc(t.domain)}</span><span>·</span><span>${esc(t.due)}</span></div></div><span class="pill ${t.priority==='Kõrge'?'red':t.priority==='Keskmine'?'amber':''}">${esc(t.priority)}</span></div>`).join('')||'<p class="muted">Selles valdkonnas pole ülesandeid.</p>';$('#metricTasks').textContent=tasks.filter(t=>!t.done&&t.due==='Täna').length;$$('[data-check]').forEach(el=>el.addEventListener('change',()=>{let t=tasks.find(x=>x.id===+el.dataset.check);t.done=el.checked;renderTasks();renderOther();}));}
-function renderSeason(){let n=season.filter(x=>x.done).length;$('#seasonCount').textContent=n+'/'+season.length;$('#seasonProgress').style.width=(n/season.length*100)+'%';$('#metricSeason').textContent=Math.round(n/season.length*100)+'%';$('#seasonTasks').innerHTML=season.map((s,i)=>`<div class="task ${s.done?'done':''}"><input class="check" type="checkbox" data-season="${i}" ${s.done?'checked':''} aria-label="Märgi hooajatöö tehtuks"><div class="taskbody"><div class="tasktitle" style="font-size:13px">${esc(s.name)}</div></div></div>`).join('');$$('[data-season]').forEach(el=>el.addEventListener('change',()=>{season[+el.dataset.season].done=el.checked;renderSeason();}));}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function setFilter(f){filter=f;$$('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter===f));renderTasks();}
-function view(name){$('#viewOverview').classList.toggle('hidden',name!=='overview');$('#otherView').classList.toggle('hidden',name==='overview');$$('.nav').forEach(b=>b.classList.toggle('active',(b.dataset.view===name)||(b.dataset.domain&&b.dataset.domain===filter&&name==='tasks')));if(name==='overview'){filter='Kõik';setFilter('Kõik');$('#pageTitle').textContent='Tere. Siin on tänane tööplaan.';$('#pageSub').textContent='Üks plaan kõigi Tarupuu tööde jaoks.';return;}$('#pageTitle').textContent=({tasks:'Ülesanded',calendar:'Kalender',hives:'Tarude kaal',inbox:'Arved ja kirjad'})[name]||filter;$('#pageSub').textContent='Tarupuu tööassistent';$('#otherTitle').textContent=({tasks:'Ülesannete nimekiri',calendar:'Kalendri vaade',hives:'Tarude kaalud',inbox:'Arved ja kirjad'})[name]||'Valdkonna tööd';renderOther(name);}
-function renderOther(name){if(!name)name='tasks';let html='';if(name==='tasks'){html=tasks.filter(t=>filter==='Kõik'||t.domain===filter).map(t=>`<div class="task ${t.done?'done':''}"><input class="check" type="checkbox" data-check="${t.id}" ${t.done?'checked':''}><div class="taskbody"><div class="tasktitle">${esc(t.title)}</div><div class="taskmeta">${esc(t.domain)} · ${esc(t.due)}</div></div><span class="pill">${esc(t.priority)}</span></div>`).join('');}else if(name==='calendar'){html='<p class="muted">Google Calendar ei ole veel ühendatud. See on näidisgraafik, mitte päris kalendri sisu.</p>'+['09:00 — Arvete ja tähtaegade kontroll','10:00 — Tarude sügisene ülevaatus','13:00 — Robotniiduki diagnostika','15:00 — Arendustöö ja dokumentatsioon'].map(x=>`<div class="agenda"><div class="event"><div class="eventtitle">${esc(x)}</div><div class="eventmeta">Näidisülesanne</div></div></div>`).join('');}else if(name==='hives'){html='<p class="muted">Kaalude andmeid pole veel imporditud.</p><p>Toetatud järgmine samm: CSV-faili või Google Sheetsi veerud taru ID, ajatempel ja kaal (kg). Muud andurite andmed jäetakse esialgu kõrvale.</p><button class="primary" id="csvInfo">CSV impordi ettevalmistus</button><div class="notice" id="csvNotice">CSV import pole veel ühendatud. Praegune graafik kasutab näidisandmeid.</div>';}else if(name==='inbox'){html='<p class="muted">Gmaili ühendus pole seadistatud. Tegelikke kirju ei loeta ega kuvata.</p><div class="mailrow"><div class="mailicon">€</div><div><div class="mailtitle">Näidisarve tähtaeg läheneb</div><div class="mailmeta">Näidisandmed · kontrolli Gmailist</div></div></div><div class="mailrow"><div class="mailicon">✉</div><div><div class="mailtitle">Kliendile vastamine</div><div class="mailmeta">Näidisandmed · vastus ootel</div></div></div>';}$('#otherContent').innerHTML=html;$$('[data-check]').forEach(el=>el.addEventListener('change',()=>{let t=tasks.find(x=>x.id===+el.dataset.check);if(t)t.done=el.checked;renderTasks();renderOther(name);}));$('#csvInfo')?.addEventListener('click',()=>$('#csvNotice').textContent='CSV impordi jaoks tuleb valida fail ja määrata taru ID, ajatempel ning kaal. Seda prototüüpi ei salvestata veel pilve.');}
-$$('[data-filter]').forEach(b=>b.addEventListener('click',()=>setFilter(b.dataset.filter)));$$('[data-view]').forEach(b=>b.addEventListener('click',()=>view(b.dataset.view)));$$('[data-domain]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.domain;view('tasks');setFilter(filter);$('#otherTitle').textContent=filter;}));$('#addTaskForm').addEventListener('submit',e=>{e.preventDefault();let v=$('#newTask').value.trim();if(!v)return;tasks.unshift({id:nextId++,title:v,domain:filter==='Kõik'?'Tehnika ja arendus':filter,due:'Täna',priority:'Keskmine',done:false});$('#newTask').value='';setFilter(filter);});$('#addTaskTop').addEventListener('click',()=>{$('#newTask').focus();$('#newTask').scrollIntoView({behavior:'smooth',block:'center'});});$('#refreshBtn').addEventListener('click',()=>{renderTasks();renderSeason();$('#pageSub').textContent='Vaade värskendatud · näidisandmed';});$('#backOverview').addEventListener('click',()=>view('overview'));$('#mobileMenu').addEventListener('click',()=>{let val=prompt('Valdkond: Mesindus, Tehnika ja arendus, Robotniidukid või Müük ja põllumajandus');if(val&&['Mesindus','Tehnika ja arendus','Robotniidukid','Müük ja põllumajandus'].includes(val)){filter=val;view('tasks');setFilter(val);$('#otherTitle').textContent=val;}});renderTasks();renderSeason();
-</script></body></html>
+}
+function taskRows(list, empty = 'Selles vaates pole töid.') {
+  if (!list.length) return '<p class="empty">' + esc(empty) + '</p>';
+  return sortedTasks(list).map(task => {
+    const done = task.status === 'Tehtud';
+    const priority = task.priority === 'Kõrge' ? 'red' : task.priority === 'Keskmine' ? 'amber' : '';
+    return '<div class="task ' + (done ? 'done' : '') + '"><input class="check" type="checkbox" data-check="' + esc(task.id) + '" ' + (done ? 'checked ' : '') + (pendingTasks.has(task.id) ? 'disabled ' : '') + 'aria-label="' + esc((done ? 'Märgi pooleliolevaks: ' : 'Märgi tehtuks: ') + task.title) + '"><div class="taskbody"><div class="tasktitle">' + esc(task.title) + '</div><div class="taskmeta"><span>' + esc(task.domain) + '</span><span>·</span><span>' + esc(dueText(task)) + '</span>' + (task.status === 'Töös' ? '<span>· Töös</span>' : '') + '</div></div><span class="pill ' + priority + '">' + esc(task.priority) + '</span></div>';
+  }).join('');
+}
+function group(title, list, empty) {
+  return '<section class="taskgroup"><h3 class="grouphead">' + esc(title) + ' · ' + list.length + '</h3>' + taskRows(list,empty) + '</section>';
+}
+function needsAttention(invoice) {
+  return invoice.direction === 'payable' && invoice.document_type !== 'credit' && ['Kontrollimata','Tasumata'].includes(invoice.payment_status) && !invoice.automatic_payment;
+}
+function amountText(invoice) {
+  if (invoice.amount_original == null) return 'Summa täpsustamisel';
+  const amount = Number(invoice.amount_original);
+  if (!Number.isFinite(amount)) return 'Summa täpsustamisel';
+  try { return new Intl.NumberFormat('et-EE',{style:'currency',currency:invoice.currency || 'EUR'}).format(amount); }
+  catch { return amount.toFixed(2) + ' ' + (invoice.currency || 'EUR'); }
+}
+function invoiceRows(list) {
+  return list.map(invoice => '<div class="invoice-row"><div><div class="invoice-title">' + esc(invoice.supplier || 'Müüja täpsustamisel') + '</div><div class="invoice-meta">' + esc(invoice.invoice_number || 'Arvenumber täpsustamisel') + ' · ' + esc(dateText(invoice.due_date)) + (invoice.direction === 'receivable' ? ' · Müügiarve' : '') + '</div></div><div class="invoice-right"><div class="invoice-amount">' + esc(amountText(invoice)) + '</div><span class="pill ' + (invoice.payment_status === 'Tasutud' ? 'green' : invoice.payment_status === 'Tasumata' ? 'red' : 'amber') + '">' + esc(invoice.payment_status) + '</span></div></div>').join('');
+}
+function renderOverview() {
+  if (!tasksLoaded) {
+    $('#taskList').innerHTML = '<p class="empty">' + esc(taskError || 'Laen töid…') + '</p>';
+    ['metricTasks','metricAll','metricWeek'].forEach(id => $('#'+id).textContent = '—');
+  } else {
+    const today = localDay();
+    const open = tasks.filter(isOpen);
+    const overdue = open.filter(t => t.due_at && localDay(t.due_at) < today);
+    const todays = open.filter(t => t.due_at && localDay(t.due_at) === today);
+    const week = open.filter(t => t.due_at && localDay(t.due_at) > today && localDay(t.due_at) <= weekEnd(today));
+    const later = open.filter(t => t.due_at && localDay(t.due_at) > weekEnd(today));
+    const undated = open.filter(t => !t.due_at);
+    $('#metricTasks').textContent = todays.length;
+    $('#metricAll').textContent = open.length;
+    $('#metricWeek').textContent = todays.length + week.length;
+    $('#taskList').innerHTML = (overdue.length ? group('Hilinenud',overdue) : '') + group('Täna',todays,'Tänase tähtajaga pooleliolevaid töid pole.') + (week.length ? group('Selle nädala jooksul',week) : '') + (undated.length ? group('Tähtaeg määramata',undated) : '') + (later.length ? group('Hiljem',later) : '');
+  }
+  if (!invoicesLoaded) {
+    $('#metricInvoices').textContent = '—';
+    $('#invoicePreview').innerHTML = '<p class="empty">' + esc(invoiceError || 'Laen arveid…') + '</p>';
+  } else {
+    const attention = invoices.filter(needsAttention).sort((a,b) => String(a.due_date || '9999').localeCompare(String(b.due_date || '9999')));
+    const paid = invoices.filter(i => i.payment_status === 'Tasutud').length;
+    $('#metricInvoices').textContent = attention.length;
+    $('#invoicePreview').innerHTML = '<p class="invoice-summary">' + invoices.length + ' kirjet · ' + paid + ' tasutud</p>' + (attention.length ? invoiceRows(attention.slice(0,4)) : '<p class="empty">Maksmata arveid kontrollimiseks ei ole.</p>');
+  }
+}
+function renderOther() {
+  $('#taskControls').classList.toggle('hidden',activeView !== 'tasks');
+  if (activeView === 'tasks') {
+    $$('[data-scope]').forEach(button => button.classList.toggle('active',button.dataset.scope === taskScope));
+    $('#domainFilter').value = domainFilter;
+    $('#otherContent').innerHTML = !tasksLoaded ? '<p class="empty">' + esc(taskError || 'Laen töid…') + '</p>' : taskRows(tasks.filter(task => taskMatches(task)));
+  } else if (activeView === 'calendar') {
+    const dated = sortedTasks(tasks.filter(task => isOpen(task) && task.due_at));
+    const days = [...new Set(dated.map(task => localDay(task.due_at)))];
+    $('#otherContent').innerHTML = !tasksLoaded ? '<p class="empty">' + esc(taskError || 'Laen töid…') + '</p>' : days.map(day => group(dateText(day),dated.filter(task => localDay(task.due_at) === day))).join('') || '<p class="empty">Tähtajaga töid pole lisatud.</p>';
+  } else if (activeView === 'inbox') {
+    if (!invoicesLoaded) { $('#otherContent').innerHTML = '<p class="empty">' + esc(invoiceError || 'Laen arveid…') + '</p>'; return; }
+    const attention = invoices.filter(needsAttention);
+    const paid = invoices.filter(i => i.payment_status === 'Tasutud');
+    const remaining = invoices.filter(i => !needsAttention(i) && i.payment_status !== 'Tasutud');
+    $('#otherContent').innerHTML = '<p class="invoice-summary">' + invoices.length + ' kirjet · ' + paid.length + ' tasutud · ' + attention.length + ' kontrollimiseks</p>' + (attention.length ? '<h3 class="grouphead">Vajavad kontrollimist</h3>' + invoiceRows(attention) : '<p class="empty">Maksmata arveid kontrollimiseks ei ole.</p>') + (remaining.length ? '<h3 class="grouphead subcard">Muud kirjed</h3>' + invoiceRows(remaining) : '') + (paid.length ? '<details class="subcard"><summary>Tasutud arved (' + paid.length + ')</summary><div class="invoice-list">' + invoiceRows(paid) + '</div></details>' : '');
+  } else if (activeView === 'hives') {
+    $('#otherContent').innerHTML = '<p class="empty">Tarukaalude andmed ei ole selle töölauaga veel ühendatud.</p>';
+  }
+}
+function renderStatus() {
+  $('#dataStatus').classList.toggle('error',!!taskError || !!invoiceError);
+  $('#dataStatus').textContent = taskError ? 'Tööde laadimine ebaõnnestus. Vajuta „Uuenda”. ' + taskError : invoiceError ? 'Arvete laadimine ebaõnnestus. Töid saad kasutada. Vajuta „Uuenda”.' : loading ? 'Laen salvestatud andmeid…' : lastLoadedAt ? 'Uuendatud ' + new Intl.DateTimeFormat('et-EE',{timeZone:TIME_ZONE,hour:'2-digit',minute:'2-digit'}).format(lastLoadedAt) : '';
+  $('#refreshBtn').disabled = loading;
+}
+function render() {
+  $('#todayLabel').textContent = new Intl.DateTimeFormat('et-EE',{timeZone:TIME_ZONE,weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date());
+  renderOverview();
+  if (activeView !== 'overview') renderOther();
+  renderStatus();
+}
+function view(name, scope = 'all', domain = 'Kõik') {
+  activeView = name;
+  if (name === 'tasks') { taskScope = scope; domainFilter = domain; }
+  $('#viewOverview').classList.toggle('hidden',name !== 'overview');
+  $('#otherView').classList.toggle('hidden',name === 'overview');
+  const titles = {overview:'Tänased tööd',tasks:'Ülesanded',calendar:'Tähtaegade kalender',inbox:'Arved',hives:'Tarude kaal'};
+  $('#pageTitle').textContent = titles[name] || 'Tarupuu';
+  $('#otherTitle').textContent = titles[name] || 'Tarupuu';
+  $('#pageSub').textContent = name === 'tasks' && domain !== 'Kõik' ? domain : 'Tarupuu tööplaan';
+  $$('.nav').forEach(button => button.classList.toggle('active',button.dataset.view === name || name === 'tasks' && button.dataset.domain === domain));
+  render();
+}
+async function fetchRows(table, fields, owner, orderedColumn) {
+  const rows = [];
+  const pageSize = 500;
+  for (let start = 0; ; start += pageSize) {
+    const {data,error} = await supabaseClient.from(table).select(fields).eq('user_id',owner).order(orderedColumn,{ascending:true,nullsFirst:false}).order('id',{ascending:true}).range(start,start+pageSize-1);
+    if (error) throw error;
+    rows.push(...data);
+    if (data.length < pageSize) return rows;
+  }
+}
+async function loadData() {
+  if (!currentUser || loading || pendingTasks.size || $('#saveTask').disabled) return;
+  const owner = currentUser.id;
+  const revision = ++loadRevision;
+  const mutationAtStart = mutationRevision;
+  loading = true;
+  renderStatus();
+  const results = await Promise.allSettled([
+    fetchRows('tasks',TASK_FIELDS,owner,'due_at'),
+    fetchRows('invoice_deadlines',INVOICE_FIELDS,owner,'due_date')
+  ]);
+  if (revision !== loadRevision || currentUser?.id !== owner) return;
+  if (mutationAtStart !== mutationRevision) {
+    loading = false;
+    renderStatus();
+    loadData();
+    return;
+  }
+  if (results[0].status === 'fulfilled') { tasks = results[0].value; tasksLoaded = true; taskError = ''; }
+  else { taskError = results[0].reason?.message || 'Kontrolli internetiühendust.'; }
+  if (results[1].status === 'fulfilled') { invoices = results[1].value; invoicesLoaded = true; invoiceError = ''; }
+  else { invoiceError = results[1].reason?.message || 'Kontrolli internetiühendust.'; }
+  loading = false;
+  lastLoadedAt = new Date();
+  render();
+}
+function showToast(message) {
+  clearTimeout(toastTimer);
+  $('#toast').textContent = message;
+  $('#toast').classList.remove('hidden');
+  toastTimer = setTimeout(() => $('#toast').classList.add('hidden'),4500);
+}
+function clearData() {
+  loadRevision++;
+  loading = false;
+  tasks = []; invoices = [];
+  tasksLoaded = false; invoicesLoaded = false;
+  taskError = ''; invoiceError = ''; lastLoadedAt = null;
+  pendingTasks.clear();
+  $('#toast').classList.add('hidden');
+  $('#taskDialog').close();
+  render();
+}
+function applySession(session) {
+  const nextUser = session?.user || null;
+  const changed = currentUser?.id !== nextUser?.id;
+  if (changed || !nextUser) clearData();
+  currentUser = nextUser;
+  $('#authView').classList.toggle('hidden',!!nextUser);
+  $('#app').classList.toggle('hidden',!nextUser);
+  $$('[data-account]').forEach(element => element.textContent = nextUser?.email || '');
+  $('#loginSubmit').disabled = false;
+  $('#loginSubmit').textContent = 'Logi sisse';
+  if (nextUser && changed) {
+    view('overview');
+    loadData();
+  }
+}
+async function connect() {
+  if (connectionPromise) return connectionPromise;
+  $('#loginError').textContent = '';
+  $('#connectionRetry').classList.add('hidden');
+  $('#loginSubmit').disabled = true;
+  $('#loginSubmit').textContent = 'Ühendan…';
+  connectionPromise = (async () => {
+    try {
+      const {createClient} = await import('https://esm.sh/@supabase/supabase-js@2.117.3?bundle');
+      supabaseClient = createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+      supabaseClient.auth.onAuthStateChange((_event,session) => {
+        const revision = ++authRevision;
+        setTimeout(() => { if (revision === authRevision) applySession(session); },0);
+      });
+      const {data,error} = await supabaseClient.auth.getSession();
+      if (error) throw error;
+      applySession(data.session);
+    } catch (_error) {
+      $('#loginError').textContent = 'Ühendamine ebaõnnestus. Kontrolli internetiühendust ja proovi uuesti.';
+      $('#loginSubmit').textContent = 'Logi sisse';
+      $('#connectionRetry').classList.remove('hidden');
+    } finally { connectionPromise = null; }
+  })();
+  return connectionPromise;
+}
+$('#loginForm').addEventListener('submit',async event => {
+  event.preventDefault();
+  if (!supabaseClient) return;
+  $('#loginError').textContent = '';
+  $('#loginSubmit').disabled = true;
+  $('#loginSubmit').textContent = 'Login sisse…';
+  try {
+    const {data,error} = await supabaseClient.auth.signInWithPassword({email:$('#loginEmail').value.trim(),password:$('#loginPassword').value});
+    if (error) throw error;
+    $('#loginPassword').value = '';
+    applySession(data.session);
+  } catch (error) {
+    $('#loginError').textContent = error.code === 'invalid_credentials' || error.status === 400 ? 'E-post või assistendi konto parool ei sobi.' : 'Sisselogimine ebaõnnestus. Kontrolli ühendust ja proovi uuesti.';
+  } finally {
+    $('#loginSubmit').disabled = false;
+    $('#loginSubmit').textContent = 'Logi sisse';
+  }
+});
+$('#connectionRetry').addEventListener('click',connect);
+$$('[data-signout]').forEach(button => button.addEventListener('click',async () => {
+  if (!supabaseClient) return;
+  button.disabled = true;
+  try {
+    const {error} = await supabaseClient.auth.signOut({scope:'local'});
+    if (error) throw error;
+    applySession(null);
+  } catch { showToast('Väljalogimine ebaõnnestus. Proovi uuesti.'); }
+  finally { button.disabled = false; }
+}));
+document.addEventListener('click',event => {
+  const button = event.target.closest('button');
+  if (!button) return;
+  if (button.dataset.view) view(button.dataset.view);
+  else if (button.dataset.domain) view('tasks','all',button.dataset.domain);
+  else if (button.dataset.scopeLink) view('tasks',button.dataset.scopeLink);
+  else if (button.dataset.scope) { taskScope = button.dataset.scope; renderOther(); }
+});
+$('#domainFilter').addEventListener('change',event => { domainFilter = event.target.value; renderOther(); });
+$('#backOverview').addEventListener('click',() => view('overview'));
+$('#refreshBtn').addEventListener('click',loadData);
+document.addEventListener('change',async event => {
+  const element = event.target;
+  const id = element.dataset.check;
+  if (!id || !currentUser || pendingTasks.has(id)) return;
+  const task = tasks.find(row => row.id === id);
+  if (!task) return;
+  const owner = currentUser.id;
+  const status = element.checked ? 'Tehtud' : 'Ootel';
+  pendingTasks.add(id);
+  render();
+  try {
+    const {data,error} = await supabaseClient.from('tasks').update({status,updated_at:new Date().toISOString()}).eq('id',id).eq('user_id',owner).select(TASK_FIELDS).single();
+    if (error) throw error;
+    if (currentUser?.id !== owner) return;
+    mutationRevision++;
+    tasks = tasks.map(row => row.id === id ? data : row);
+    showToast(status === 'Tehtud' ? 'Töö märgitud tehtuks.' : 'Töö on jälle pooleli.');
+  } catch {
+    if (currentUser?.id === owner) showToast('Muudatust ei salvestatud. Kontrolli ühendust ja proovi uuesti.');
+  } finally {
+    pendingTasks.delete(id);
+    if (currentUser?.id === owner) render();
+  }
+});
+$('#addTaskTop').addEventListener('click',() => {
+  if (!currentUser) return;
+  $('#newTask').value = '';
+  $('#newDue').value = localDay();
+  $('#newDomain').value = domainFilter === 'Kõik' ? 'Juhtimine' : domainFilter;
+  $('#newPriority').value = 'Keskmine';
+  $('#addError').textContent = '';
+  $('#taskDialog').showModal();
+  $('#newTask').focus();
+});
+$('#closeDialog').addEventListener('click',() => $('#taskDialog').close());
+$('#cancelAdd').addEventListener('click',() => $('#taskDialog').close());
+$('#addTaskForm').addEventListener('submit',async event => {
+  event.preventDefault();
+  if (!currentUser || $('#saveTask').disabled) return;
+  const title = $('#newTask').value.trim();
+  if (!title) { $('#addError').textContent = 'Kirjuta ülesanne.'; return; }
+  const owner = currentUser.id;
+  $('#saveTask').disabled = true;
+  $('#addError').textContent = '';
+  try {
+    const due = $('#newDue').value;
+    const {data,error} = await supabaseClient.from('tasks').insert({user_id:owner,title,domain:$('#newDomain').value,priority:$('#newPriority').value,status:'Ootel',due_at:due ? endOfTallinnDay(due) : null,source:'Veeb',updated_at:new Date().toISOString()}).select(TASK_FIELDS).single();
+    if (error) throw error;
+    if (currentUser?.id !== owner) return;
+    mutationRevision++;
+    tasks.unshift(data);
+    tasksLoaded = true;
+    $('#taskDialog').close();
+    view('overview');
+    showToast('Töö salvestatud.');
+  } catch (error) {
+    $('#addError').textContent = error.message === 'Kontrolli kuupäeva.' ? error.message : 'Tööd ei salvestatud. Kontrolli ühendust ja proovi uuesti.';
+  } finally { $('#saveTask').disabled = false; }
+});
+document.addEventListener('visibilitychange',() => {
+  if (!document.hidden && currentUser) { render(); loadData(); }
+});
+window.addEventListener('online',() => { if (currentUser) loadData(); });
+setInterval(() => {
+  if (!document.hidden && currentUser) { render(); loadData(); }
+},60000);
+render();
+connect();
+</script>
+</body>
+</html>
