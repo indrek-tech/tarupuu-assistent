@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#2d6548">
-<meta name="tarupuu-version" content="2026-10-13-live-tasks">
+<meta name="tarupuu-version" content="2026-10-13-google-login">
 <title>Tarupuu tööassistent</title>
 <style>
 
@@ -21,8 +21,7 @@ button:disabled{opacity:.6;cursor:wait}.primary{color:var(--panel)}input,select{
     <h1>Sinu tööd ja tähtajad</h1>
     <p class="muted">Logi sisse, et näha oma salvestatud ülesandeid ja arveid.</p>
     <form id="loginForm" class="stack">
-      <label class="field">E-post<input id="loginEmail" type="email" value="indrek@tarupuu.ee" autocomplete="username" required></label>
-      <label class="field">Assistendi konto parool<input id="loginPassword" type="password" autocomplete="current-password" required></label>
+      <p class="tiny">Kasuta Google’i kontot <strong>indrek@tarupuu.ee</strong>.</p>
       <p id="loginError" class="error" role="alert"></p>
       <button id="loginSubmit" class="primary" type="submit" disabled>Ühendan…</button>
     </form>
@@ -109,6 +108,8 @@ button:disabled{opacity:.6;cursor:wait}.primary{color:var(--panel)}input,select{
 'use strict';
 const SUPABASE_URL = 'https://hordwvkfoqkdaswurvnc.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_m4-lXDBzeWjxpDSO8Oo1cw_D7NxKDRb';
+const ALLOWED_EMAIL = 'indrek@tarupuu.ee';
+const AUTH_REDIRECT_URL = 'https://indrek-tech.github.io/tarupuu-assistent/';
 const TIME_ZONE = 'Europe/Tallinn';
 const TASK_FIELDS = 'id,title,description,domain,priority,status,due_at,created_at,updated_at';
 const INVOICE_FIELDS = 'id,supplier,invoice_number,due_date,amount_original,currency,payment_status,direction,document_type,automatic_payment,deadline_status,review_reason';
@@ -349,6 +350,12 @@ function clearData() {
 }
 function applySession(session) {
   const nextUser = session?.user || null;
+  if (nextUser && String(nextUser.email || '').trim().toLowerCase() !== ALLOWED_EMAIL) {
+    applySession(null);
+    $('#loginError').textContent = 'See Google’i konto ei ole lubatud. Vali indrek@tarupuu.ee.';
+    supabaseClient.auth.signOut({scope:'local'}).catch(() => {});
+    return;
+  }
   const changed = currentUser?.id !== nextUser?.id;
   if (changed || !nextUser) clearData();
   currentUser = nextUser;
@@ -356,7 +363,7 @@ function applySession(session) {
   $('#app').classList.toggle('hidden',!nextUser);
   $$('[data-account]').forEach(element => element.textContent = nextUser?.email || '');
   $('#loginSubmit').disabled = false;
-  $('#loginSubmit').textContent = 'Logi sisse';
+  $('#loginSubmit').textContent = 'Logi sisse Google’iga';
   if (nextUser && changed) {
     view('overview');
     loadData();
@@ -371,7 +378,7 @@ async function connect() {
   connectionPromise = (async () => {
     try {
       const {createClient} = await import('https://esm.sh/@supabase/supabase-js@2.117.3?bundle');
-      supabaseClient = createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
+      supabaseClient = createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:'pkce'}});
       supabaseClient.auth.onAuthStateChange((_event,session) => {
         const revision = ++authRevision;
         setTimeout(() => { if (revision === authRevision) applySession(session); },0);
@@ -381,7 +388,7 @@ async function connect() {
       applySession(data.session);
     } catch (_error) {
       $('#loginError').textContent = 'Ühendamine ebaõnnestus. Kontrolli internetiühendust ja proovi uuesti.';
-      $('#loginSubmit').textContent = 'Logi sisse';
+      $('#loginSubmit').textContent = 'Logi sisse Google’iga';
       $('#connectionRetry').classList.remove('hidden');
     } finally { connectionPromise = null; }
   })();
@@ -392,17 +399,17 @@ $('#loginForm').addEventListener('submit',async event => {
   if (!supabaseClient) return;
   $('#loginError').textContent = '';
   $('#loginSubmit').disabled = true;
-  $('#loginSubmit').textContent = 'Login sisse…';
+  $('#loginSubmit').textContent = 'Avan Google’i…';
   try {
-    const {data,error} = await supabaseClient.auth.signInWithPassword({email:$('#loginEmail').value.trim(),password:$('#loginPassword').value});
+    const {error} = await supabaseClient.auth.signInWithOAuth({
+      provider:'google',
+      options:{redirectTo:AUTH_REDIRECT_URL,queryParams:{login_hint:ALLOWED_EMAIL,prompt:'select_account',hd:'tarupuu.ee'}}
+    });
     if (error) throw error;
-    $('#loginPassword').value = '';
-    applySession(data.session);
   } catch (error) {
-    $('#loginError').textContent = error.code === 'invalid_credentials' || error.status === 400 ? 'E-post või assistendi konto parool ei sobi.' : 'Sisselogimine ebaõnnestus. Kontrolli ühendust ja proovi uuesti.';
-  } finally {
+    $('#loginError').textContent = error.code === 'provider_disabled' || /provider.*(disabled|not enabled|unsupported)/i.test(error.message || '') ? 'Google’i sisselogimine pole veel seadistatud.' : 'Google’iga sisselogimine ebaõnnestus. Proovi uuesti.';
     $('#loginSubmit').disabled = false;
-    $('#loginSubmit').textContent = 'Logi sisse';
+    $('#loginSubmit').textContent = 'Logi sisse Google’iga';
   }
 });
 $('#connectionRetry').addEventListener('click',connect);
